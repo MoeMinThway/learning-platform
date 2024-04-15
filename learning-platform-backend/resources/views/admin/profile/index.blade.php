@@ -61,34 +61,64 @@
                 </thead>
                 <tbody>
                     @foreach ($users as $u)
-                        <tr>
-                            <td>{{$u->id}} </td>
-                            <td></td>
-                            <td>{{$u->name}} </td>
-                            <td></td>
-                            <td>{{$u->email}} </td>
+                    @if ($u->id == Auth::user()->id)
+                    <tr class="bg-dark">
+                        <td>{{$u->id}} </td>
+                        <td></td>
+                        <td>{{$u->name}} </td>
+                        <td></td>
+                        <td>{{$u->email}} </td>
 
-                            @if ($u->role == "user")
-                            <td>{{$u->money}} </td>
-                            <td>{{$u->point}} </td>
-                            @else
-                            <td>{{$u->phone}} </td>
-                            <td>{{$u->address}} </td>
-                            @endif
-                            <td>
+                        @if ($u->role == "user")
+                        <td>{{$u->money}} </td>
+                        <td>{{$u->point}} </td>
+                        @else
+                        <td>{{$u->phone}} </td>
+                        <td>{{$u->address}} </td>
+                        @endif
+                        <td>
 
-                                <a href="{{route("account#details",$u->id)}}">
-                                    <i class="fa-solid fa-circle-info ml-3 fs-5"></i>
-                                </a>
-                                <a href="{{route("account#edit",$u->id)}}">
-                                    <i class="fa-solid fa-pen-to-square ml-3 fs-5"></i>
-                                </a>
-                                <a href="">
-                                    <i class="fa-solid fa-trash ml-3 fs-5"></i>
-                                </a>
+                            <a href="{{route("account#details",$u->id)}}">
+                                <i class="fa-solid fa-circle-info ml-3 fs-5"></i>
+                            </a>
+                            <a href="{{route("account#edit",$u->id)}}">
+                                <i class="fa-solid fa-pen-to-square ml-3 fs-5"></i>
+                            </a>
 
-                            </td>
-                        </tr>
+
+                        </td>
+                    </tr>
+                    @else
+                    <tr>
+                        <td>{{$u->id}} </td>
+                        <td></td>
+                        <td>{{$u->name}} </td>
+                        <td></td>
+                        <td>{{$u->email}} </td>
+
+                        @if ($u->role == "user")
+                        <td>{{$u->money}} </td>
+                        <td>{{$u->point}} </td>
+                        @else
+                        <td>{{$u->phone}} </td>
+                        <td>{{$u->address}} </td>
+                        @endif
+                        <td>
+
+                            <a href="{{route("account#details",$u->id)}}">
+                                <i class="fa-solid fa-circle-info ml-3 fs-5"></i>
+                            </a>
+                            <a href="{{route("account#edit",$u->id)}}">
+                                <i class="fa-solid fa-pen-to-square ml-3 fs-5"></i>
+                            </a>
+                            <a href="">
+                                <i class="fa-solid fa-trash ml-3 fs-5"></i>
+                            </a>
+
+                        </td>
+                    </tr>
+                    @endif
+
                     @endforeach
 
                 </tbody>
