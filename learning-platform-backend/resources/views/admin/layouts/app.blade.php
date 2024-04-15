@@ -29,7 +29,10 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="#" class="brand-link">
 
-      <span class="brand-text font-weight-light">Learning Platform </span>
+      <span class="brand-text font-weight-light">
+        <img class="text-white" src="{{asset('logo/img-removebg-preview.png')}}" width="50px" alt="">
+
+        Learning Platform </span>
     </a>
     <div class="sidebar">
       <nav class="mt-2">

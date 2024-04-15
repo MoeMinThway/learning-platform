@@ -26,4 +26,18 @@ class AccountController extends Controller
      public function createPage(){
         return view('admin.profile.create');
      }
+     public function create(Request $request){
+        // dd($request->toArray());
+        $this->validationCheck($request);
+
+        return redirect()->route('account#createPage');
+     }
+     private function validationCheck($request){
+        $validated = $request->validate([
+            'accountName' => 'required',
+            'accountEmail' => 'required',
+            'accountPassword' => 'required',
+        ]);
+        return $validated;
+     }
 }

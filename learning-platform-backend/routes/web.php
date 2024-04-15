@@ -15,6 +15,7 @@ Route::middleware([
     Route::get('/dashboard/{role?}',[AccountController::class,'accountLists'])->name('dashboard');
     Route::get('accountDetails/{id}',[AccountController::class,'accountDetails'])->name('account#details');
     Route::get('account/create',[AccountController::class,'createPage'])->name('account#createPage');
+    Route::post('account/create',[AccountController::class,'create'])->name('account#create');
 
 
 
