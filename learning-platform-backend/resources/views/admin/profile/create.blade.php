@@ -19,24 +19,57 @@
        <div class="row">
 
            <div class="col-5 ">
-               <img src="{{asset('logo/img-removebg-preview.png')}}" width="500px" alt="">
-               <input type="file" class="form-control" name="accountImg" id="">
+               <img src="{{asset('logo/img-removebg-preview.png')}}" width="450px" alt="">
+               <label ">Image</label>
+
+               <input type="file" class="form-control mb-2" name="accountImg" id="">
+
+               <div class="form-group">
+                <label ">Role</label>
+                <select class="form-control" name="accountRole" id="">
+                    <option value="">Choose Role</option>
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
+                </select>
+              </div>
+            <div class="form-group">
+                <label ">Gender</label>
+                <select class="form-control" name="accountGender" id="">
+                    <option value="">Choose Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+              </div>
+
            </div>
            <div class="col-5 offset-1  ">
 
 
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Name</label>
-                  <input type="text" name="accountName"   class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name">
+                  <label ">Name</label>
+                  <input type="text" name="accountName"   class="form-control"  aria-describedby="emailHelp" placeholder="Enter name">
                             @error('accountName')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                             {{$message}}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                            @enderror
                 </div>
 
 
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Email</label>
-                  <input type="email" name="accountEmail"  class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                  <label ">Email</label>
+                  <input type="email" name="accountEmail"  class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
+                  @error('accountEmail')
+                  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                   {{$message}}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  @enderror
                 </div>
 
 
@@ -44,45 +77,42 @@
 
 
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Phone</label>
-                  <input type="number" name="accountPhone"   class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter phone">
+                  <label ">Phone</label>
+                  <input type="number" name="accountPhone"   class="form-control"  aria-describedby="emailHelp" placeholder="Enter phone">
                 </div>
 
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Money</label>
-                    <input type="number" name="accountMoney" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter money">
+                    <label ">Money</label>
+                    <input type="number" name="accountMoney" class="form-control"  aria-describedby="emailHelp" placeholder="Enter money">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Point</label>
-                    <input type="number"  name="accountPoint" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter point">
+                    <label ">Point</label>
+                    <input type="number"  name="accountPoint" class="form-control"  aria-describedby="emailHelp" placeholder="Enter point">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Password</label>
-                    <input type="password"  name="accountPassword" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter password">
-                  </div>
+                    <label ">Password</label>
+                    <input type="password"  name="accountPassword" class="form-control"  aria-describedby="emailHelp" placeholder="Enter password">
+                    @error('accountPassword')
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                     {{$message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    @enderror
+                </div>
+
 
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Address</label>
-                  {{-- <input type="email" value="{{$user->address}}"  class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"> --}}
+                  <label ">Address</label>
+                  {{-- <input type="email" value="{{$user->address}}"  class="form-control"  aria-describedby="emailHelp" placeholder="Enter email"> --}}
                     <textarea  name="accountAddress"  cols="5" rows="3" class="form-control"  placeholder="Enter Address"></textarea>
                 </div>
 
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Role</label>
-                    <select class="form-control" name="accountRole" id="">
-                        <option value="">Choose Role</option>
-                        <option value="admin">Admin</option>
-                        <option value="user">User</option>
-                    </select>
-                  </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Gender</label>
-                    <select class="form-control" name="accountGender" id="">
-                        <option value="">Choose Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                  </div>
+
+
+
+<br>
 
 
 
@@ -90,10 +120,7 @@
 
 
 
-
-
-
-                <button type="submit" class="btn btn-primary">Create</button>
+                <button type="submit" class="btn btn-primary py-2 px-5  ">Create</button>
 
            </div>
        </div>
