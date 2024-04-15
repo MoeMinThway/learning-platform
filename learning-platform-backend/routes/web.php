@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AccountController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -11,7 +12,10 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.profile.index');
-    })->name('dashboard');
+    Route::get('/dashboard/{role?}',[AccountController::class,'accountLists'])->name('dashboard');
+    Route::get('accountDetails/{id}',[AccountController::class,'accountDetails'])->name('account#details');
+    Route::get('account/create',[AccountController::class,'createPage'])->name('account#createPage');
+
+
+
 });

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->longText('price');
             $table->string('time')->nullable(true);
             $table->string('day')->nullable(true);
-            $table->string('point');
+            $table->integer('point');
 
             $table->timestamps();
         });
