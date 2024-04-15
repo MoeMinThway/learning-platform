@@ -16,6 +16,7 @@ Route::middleware([
     Route::get('accountDetails/{id}',[AccountController::class,'accountDetails'])->name('account#details');
     Route::get('account/create',[AccountController::class,'createPage'])->name('account#createPage');
     Route::post('account/create',[AccountController::class,'create'])->name('account#create');
+    Route::get('account/edit/{id}',[AccountController::class,'editPage'])->name('account#edit');
 
 
 

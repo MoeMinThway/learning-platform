@@ -34,30 +34,38 @@
         <div class="row ">
             <table class="table table-hover">
                 <thead>
-                  <tr>
-                    <th >Id</th>
-                    <th >Name</th>
-                    <th >Email</th>
+
+                @if(Request::url() == 'http://127.0.0.1:8000/dashboard')
+                    <tr>
+                        <th colspan="2" >Id</th>
+                        <th  colspan="2">Name</th>
+                        <th >Email</th>
+                        <th>Phone</th>
+                          <th>Address</th>
+                          <th></th>
+                    </tr>
+                    @elseif(Request::url() == 'http://127.0.0.1:8000/dashboard/user')
+                            <th colspan="2" >Id</th>
+                            <th  colspan="2">Name</th>
+                            <th >Email</th>
+                            <th >Money</th>
+                            <th >Point</th>
+                            <th></th>
+                    @endif
 
 
-    @foreach ($users as $u)
-    @if ($u->role == 'user')
-    <th >Money</th>
-    <th >Point</th>
-    @else
-                <th>Phone</th>
-                <th>Address</th>
-    @endif
-    @endforeach
 
-                    <th></th>
-                  </tr>
+
+
+
                 </thead>
                 <tbody>
                     @foreach ($users as $u)
                         <tr>
                             <td>{{$u->id}} </td>
+                            <td></td>
                             <td>{{$u->name}} </td>
+                            <td></td>
                             <td>{{$u->email}} </td>
 
                             @if ($u->role == "user")
@@ -72,7 +80,7 @@
                                 <a href="{{route("account#details",$u->id)}}">
                                     <i class="fa-solid fa-circle-info ml-3 fs-5"></i>
                                 </a>
-                                <a href="">
+                                <a href="{{route("account#edit",$u->id)}}">
                                     <i class="fa-solid fa-pen-to-square ml-3 fs-5"></i>
                                 </a>
                                 <a href="">

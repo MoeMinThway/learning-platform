@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Controller
 {
      public function accountLists($role =null){
-        // dd($role);
+        //  $url  = URL::current();
+        // dd($url);
         if($role == 'user'){
             $users  = User::where('role','user')->get();
         }else{
@@ -40,13 +42,17 @@ class AccountController extends Controller
 
 
             $data = $this->getCreateData($request,$fileName);
-  
+
         }else{
             $data = $this->getCreateData($request,NULL);
         }
         User::create($data);
 
         return redirect()->route('account#createPage');
+     }
+
+     public function editPage($id){
+        dd($id);
      }
      private function validationCheck($request){
         $validated = $request->validate([
