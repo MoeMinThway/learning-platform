@@ -21,7 +21,17 @@
       </div>
 
       <div class="text-end rounded img-thumbnail" style="margin-left: 600px; " >
-        <img src="{{asset('defaultImage/default.jpg')}}" width="50px" alt="">
+        {{-- <img src="{{asset('defaultImage/default.jpg')}}" width="50px" alt=""> --}}
+        <a href="{{route('account#details',Auth::user()->id)}}">
+            @if (Auth::user()->image == NULL)
+            <img src="{{asset('defaultImage/default.jpg')}}" width="50px" alt="">
+            @else
+            <img src="{{asset('accountImage/'.Auth::user()->image)}}" width="50px" alt="">
+            @endif
+        </a>
+
+
+
       </div>
 
     </ul>
@@ -40,7 +50,7 @@
 
           <li class="nav-item">
             <a href="{{route('dashboard')}}" class="nav-link">
-              <i class="fas fa-user-circle"></i>
+              <i class="mr-2 fas fa-user-circle"></i>
               <p>
               Account
               </p>
@@ -48,7 +58,7 @@
           </li>
           <li class="nav-item">
             <a href="{{route('dashboard')}}" class="nav-link">
-              <i class="fas fa-user-circle"></i>
+                <i class="mr-2 fa-solid fa-list"></i>
               <p>
               Category
               </p>
@@ -56,24 +66,22 @@
           </li>
           <li class="nav-item">
             <a href="{{route('dashboard')}}" class="nav-link">
-              <i class="fas fa-user-circle"></i>
-              <p>
+                <i class="mr-2 fa-solid fa-folder"></i>              <p>
               Course
               </p>
             </a>
           </li>
           <li class="nav-item">
             <a href="{{route('dashboard')}}" class="nav-link">
-              <i class="fas fa-user-circle"></i>
-              <p>
+                <i class="mr-2 fa-solid fa-clock-rotate-left"></i>
+                              <p>
                 History
               </p>
             </a>
           </li>
           <li class="nav-item">
             <a href="{{route('dashboard')}}" class="nav-link">
-              <i class="fas fa-user-circle"></i>
-              <p>
+                <i class="mr-2 fa-solid fa-money-bill"></i>              <p>
                 Kpay
               </p>
             </a>
@@ -92,7 +100,7 @@
             @csrf
             <li class="nav-item">
                 <button type="submit"  class="nav-link bg-danger text-white">
-                  <i class="fas fa-sign-out-alt"></i>
+                  <i class="mr-2 fas fa-sign-out-alt"></i>
                   <p>
                     Logout
                   </p>
