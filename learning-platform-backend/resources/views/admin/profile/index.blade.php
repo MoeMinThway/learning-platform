@@ -29,12 +29,14 @@
         </button>
       </div>
 @endif
+       <a href="{{route('account#createPage')}}" class="" style="text-decoration: none">
 
-                  <div class="bg-success rounded ">
-                    <a href="{{route('account#createPage')}}" style="text-decoration: none">
+                  <div class="bg-success rounded p-1">
+
                         <li class="m-3">Create New Account</li>
-                    </a>
+
                   </div>
+                </a>
 
 
 
@@ -92,10 +94,10 @@
                             <a href="{{route("account#details",$u->id)}}">
                                 <i class="fa-solid fa-circle-info ml-3 fs-5"></i>
                             </a>
-                            <a href="{{route("account#edit",$u->id)}}">
+                            <a href="{{route("account#editPage",$u->id)}}">
                                 <i class="fa-solid fa-pen-to-square ml-3 fs-5"></i>
                             </a>
-
+                         
 
                         </td>
                     </tr>
@@ -119,10 +121,10 @@
                             <a href="{{route("account#details",$u->id)}}">
                                 <i class="fa-solid fa-circle-info ml-3 fs-5"></i>
                             </a>
-                            <a href="{{route("account#edit",$u->id)}}">
+                            <a href="{{route("account#editPage",$u->id)}}">
                                 <i class="fa-solid fa-pen-to-square ml-3 fs-5"></i>
                             </a>
-                            <a href="">
+                            <a href="{{route('account#delete',$u->id)}}">
                                 <i class="fa-solid fa-trash ml-3 fs-5"></i>
                             </a>
 

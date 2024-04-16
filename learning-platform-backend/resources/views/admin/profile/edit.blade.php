@@ -10,7 +10,7 @@
         </a>
     </div>
     <div class="col">
-        <h1 > Edit {{$user->name}}  's Account </h1>
+        <h1 > Edit <span class="text-danger">{{$user->name}}</span>  's Account </h1>
     </div>
   </div>
     <br>
@@ -106,18 +106,7 @@
                     <label ">Point</label>
                     <input type="number"  name="accountPoint" class="form-control"  value="{{old('accountPoint',$user->point)}}" aria-describedby="emailHelp" placeholder="Enter point">
                   </div>
-                  <div class="form-group">
-                    <label ">Password</label>
-                    <input type="password"  name="accountPassword" class="form-control" value="{{old('accountpassword',$user->password)}}"  aria-describedby="emailHelp" placeholder="Enter password">
-                    @error('accountPassword')
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                     {{$message}}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                    @enderror
-                </div>
+
 
 
                 <div class="form-group">
@@ -127,10 +116,14 @@
                 </div>
 <br>
                 <button type="submit" class="btn btn-primary py-2 px-5  ">Update</button>
+               <a href="{{route('account#changePasswordPage',$user->id)}}">
+                <span  class="btn btn-success py-2 px-5  ">Change Password</span>
+               </a>
 
            </div>
        </div>
    </div>
 </form>
+
 @endsection
 {{--  --}}

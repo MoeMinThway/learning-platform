@@ -10,8 +10,14 @@
         </a>
     </div>
     <div class="col">
-        <h1 > {{$user->name }} 's Details </h1>
+        <h1 > {{$user->name }} 's Details
+            <a class="ml-5" href="{{route("account#editPage",$user->id)}}">
+                <button type="submit" class="btn btn-primary">Edit     <i class="fa-solid fa-pen-to-square ml-3 fs-5"></i></button>
+            </a>
+        </h1>
+
     </div>
+
   </div>
     <br>
        <div class="row">
@@ -84,7 +90,8 @@
                 @endif
 
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                {{-- <button type="submit" class="btn btn-primary">Submit</button> --}}
+
               </form>
            </div>
        </div>

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Controller
@@ -61,14 +62,16 @@ class AccountController extends Controller
      }
 
      public function edit(Request $request){
-        // dd($request->toArray());
         $oldAccocunt = User::where('id',$request->accountId)->first();
         $oldImgName = $oldAccocunt->image;
-        // dd($oldImgName);
 
-        if($oldImgName != null && File::exists(public_path().'accountImge/',$oldImgName) ){
-            File::delete(public_path().'accountImge/',$oldImgName);
+
+
+        if(File::exists(public_path().'/accountImage/'.$oldImgName)  ){
+
+            File::delete(public_path().'/accountImage/'.$oldImgName);
         }
+
         if(  $request->accountImg != null && !empty($request->accountImg) ){
             $file = $request->file('accountImg');
             $fileName = uniqid()."_" .$file->getClientOriginalName();
@@ -86,6 +89,40 @@ class AccountController extends Controller
 
         return redirect()->route('dashboard')->with([
             "message"=>"Account edit successfullly"
+        ]);
+
+
+     }
+     public function changePasswordPage($id){
+        // dd($id);
+        $user = User::where('id',$id)->first();
+        return view('admin.profile.changePassword',compact('user'));
+     }
+     public function changePassword(Request $request){
+        // dd($request->toArray());
+        $this->changePasswordValidation($request);
+        $old = User::where('id',$request->accountId)->first();
+        $oldHashPw = $old->password ;
+
+        if(Hash::check($request->accountOldPassword, $oldHashPw)){
+            $newHashPw = Hash::make($request->accountNewPassword);
+            $data = [
+                'password' =>$newHashPw
+            ];
+            User::where('id',$request->accountId)->update($data);
+            return redirect()->route('dashboard')->with([
+                "message"=>"Account edit successfullly"
+            ]);
+        }else{
+            return redirect()->route('account#changePasswordPage',$request->accountId)->with([
+                "message"=>"Wrong Password"
+            ]);
+        }
+     }
+     public function delete($id){
+        User::where('id',$id)->delete();
+        return redirect()->route('dashboard')->with([
+            "message"=>"Account delete successfullly"
         ]);
      }
      private function validationCheck($request){
@@ -115,4 +152,11 @@ class AccountController extends Controller
             'updated_at'=>Carbon::now(),
         ];
      }
+     private function changePasswordValidation($request){
+        return $request->validate([
+            'accountOldPassword' => 'required',
+            'accountNewPassword' => 'required',
+            'accountConfirmPassword' => 'required|same:accountNewPassword',
+        ]);
+    }
 }
