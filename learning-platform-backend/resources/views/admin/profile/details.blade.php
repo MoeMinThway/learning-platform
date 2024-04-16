@@ -10,9 +10,18 @@
         </a>
     </div>
     <div class="col">
-        <h1 > {{$user->name }} 's Details
+        <h1 > <span class="text-danger">{{$user->name }}</span> 's Details
             <a class="ml-5" href="{{route("account#editPage",$user->id)}}">
-                <button type="submit" class="btn btn-primary">Edit     <i class="fa-solid fa-pen-to-square ml-3 fs-5"></i></button>
+                <span  class="btn btn-primary">
+                       <i class="fa-solid fa-pen-to-square fs-5"></i>
+                </span>
+            </a>
+            <a href="{{route("account#delete",$user->id)}}">
+                <span  class="btn btn-danger">
+
+                        <i class="fa-solid fa-trash fs-5"></i>
+
+                    </span>
             </a>
         </h1>
 

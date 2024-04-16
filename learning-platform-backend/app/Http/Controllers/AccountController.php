@@ -79,10 +79,10 @@ class AccountController extends Controller
             $file->move(public_path().'/accountImage',$fileName);
 
 
-            $data = $this->getCreateData($request,$fileName);
+            $data = $this->getUpdateData($request,$fileName);
 
         }else{
-            $data = $this->getCreateData($request,NULL);
+            $data = $this->getUpdateData($request,NULL);
         }
         User::where('id',$request->accountId)->update($data);
 
@@ -111,7 +111,7 @@ class AccountController extends Controller
             ];
             User::where('id',$request->accountId)->update($data);
             return redirect()->route('dashboard')->with([
-                "message"=>"Account edit successfullly"
+                "message"=>"Password change successfullly"
             ]);
         }else{
             return redirect()->route('account#changePasswordPage',$request->accountId)->with([
@@ -147,6 +147,21 @@ class AccountController extends Controller
             "money"=>  $request->accountMoney,
             "point"=>  $request->accountPoint,
             "password"=>Hash::make($request->accountPassword)  ,
+            "address"=>  $request->accountAddress ,
+            "image"=>  $fileName,
+            'updated_at'=>Carbon::now(),
+        ];
+     }
+     private function getUpdateData($request,$fileName){
+        // dd($request->toArray() ,$fileName);
+        return [
+            "role"=>  $request->accountRole ,
+            "gender"=>  $request->accountGender ,
+            "name"=>  $request->accountName ,
+            "email"=>  $request->accountEmail ,
+            "phone"=>  $request->accountPhone,
+            "money"=>  $request->accountMoney,
+            "point"=>  $request->accountPoint,
             "address"=>  $request->accountAddress ,
             "image"=>  $fileName,
             'updated_at'=>Carbon::now(),

@@ -10,7 +10,15 @@
         </a>
     </div>
     <div class="col">
-        <h1 > Edit <span class="text-danger">{{$user->name}}</span>  's Account </h1>
+        <h1 > Edit <span class="text-danger">{{$user->name}}</span>  's Account
+            <a class="ml-5" href="{{route("account#delete",$user->id)}}">
+                <span  class="btn btn-danger">
+
+                        <i class="fa-solid fa-trash fs-5"></i>
+
+                    </span>
+            </a>
+        </h1>
     </div>
   </div>
     <br>
