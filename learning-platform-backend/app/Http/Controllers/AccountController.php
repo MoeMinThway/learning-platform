@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
@@ -13,9 +14,9 @@ class AccountController extends Controller
         //  $url  = URL::current();
         // dd($url);
         if($role == 'user'){
-            $users  = User::where('role','user')->get();
+            $users  = User::where('role','user')->paginate('7');
         }else{
-            $users  = User::where('role','admin')->get();
+            $users  = User::where('role','admin')->paginate('7');
         }
         // dd($users->toArray());
         return view('admin.profile.index',compact('users'));
@@ -33,7 +34,7 @@ class AccountController extends Controller
 
         // dd($request->toArray());
 
-        // $this->validationCheck($request);
+        $this->validationCheck($request);
         if(  $request->accountImg != null && !empty($request->accountImg) ){
             $file = $request->file('accountImg');
             $fileName = uniqid()."_" .$file->getClientOriginalName();
@@ -48,17 +49,51 @@ class AccountController extends Controller
         }
         User::create($data);
 
-        return redirect()->route('account#createPage');
+        return redirect()->route('dashboard')->with([
+            "message"=>"Account create successfullly"
+        ]);
      }
 
      public function editPage($id){
-        dd($id);
+        // dd($id);
+        $user =User::where('id',$id)->first();
+        return view('admin.profile.edit',compact('user'));
+     }
+
+     public function edit(Request $request){
+        // dd($request->toArray());
+        $oldAccocunt = User::where('id',$request->accountId)->first();
+        $oldImgName = $oldAccocunt->image;
+        // dd($oldImgName);
+
+        if($oldImgName != null && File::exists(public_path().'accountImge/',$oldImgName) ){
+            File::delete(public_path().'accountImge/',$oldImgName);
+        }
+        if(  $request->accountImg != null && !empty($request->accountImg) ){
+            $file = $request->file('accountImg');
+            $fileName = uniqid()."_" .$file->getClientOriginalName();
+            // dd($fileName);
+            $file->move(public_path().'/accountImage',$fileName);
+
+
+            $data = $this->getCreateData($request,$fileName);
+
+        }else{
+            $data = $this->getCreateData($request,NULL);
+        }
+        User::where('id',$request->accountId)->update($data);
+
+
+        return redirect()->route('dashboard')->with([
+            "message"=>"Account edit successfullly"
+        ]);
      }
      private function validationCheck($request){
         $validated = $request->validate([
             'accountName' => 'required',
-            'accountEmail' => 'required',
+            'accountEmail' => 'required|unique:users,email',
             'accountPassword' => 'required',
+
 
             'accountImg' => "mimes:png,jpg,jpeg",
         ]);
@@ -77,6 +112,7 @@ class AccountController extends Controller
             "password"=>Hash::make($request->accountPassword)  ,
             "address"=>  $request->accountAddress ,
             "image"=>  $fileName,
+            'updated_at'=>Carbon::now(),
         ];
      }
 }

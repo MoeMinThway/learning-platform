@@ -16,7 +16,11 @@
     <br>
        <div class="row">
            <div class="col-5 ">
-               <img src="{{asset('defaultImage/default.jpg')}}" width="500px" alt="">
+              @if ($user->image == NULL)
+              <img src="{{asset('defaultImage/default.jpg')}}" width="500px" alt="">
+              @else
+              <img src="{{asset('accountImage/'.$user->image)}}" width="500px" alt="">
+              @endif
            </div>
            <div class="col-5 offset-1  ">
             <form class="p-2">

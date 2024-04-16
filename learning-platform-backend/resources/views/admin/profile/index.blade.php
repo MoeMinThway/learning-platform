@@ -19,7 +19,18 @@
                     <li class="m-3">User</li>
                 </a>
          </div>
-                  <div class="bg-success ">
+
+@if (Session::has("message"))
+<div class="alert alert-warning alert-dismissible fade show" role="alert" style="width: 600px">
+    {{Session::get('message')}}
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+@endif
+
+                  <div class="bg-success rounded ">
                     <a href="{{route('account#createPage')}}" style="text-decoration: none">
                         <li class="m-3">Create New Account</li>
                     </a>
@@ -123,6 +134,9 @@
 
                 </tbody>
               </table>
+              <div>
+                {{$users->links()}}
+              </div>
         </div>
     </div>
 </div>
