@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Course;
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -42,6 +44,19 @@ class DatabaseSeeder extends Seeder
             'address' =>'Mandalay',
             'gender' => 'female',
         ]);
+        DB::table('categories')->insert([
+            'name'=>'online class'
+        ]);
+        DB::table('categories')->insert([
+            'name'=>'video class'
+        ]);
+        DB::table('categories')->insert([
+            'name'=>'Inclass '
+        ]);
+
+
+
+        // Category::factory(3)-> has(Course::factory()->count(2),'courses') ->create();
 
     }
 }

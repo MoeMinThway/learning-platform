@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,6 +22,15 @@ Route::middleware([
     Route::get('account/delete/{id}',[AccountController::class,'delete'])->name('account#delete');
     Route::get('account/changePassword/{id}',[AccountController::class,'changePasswordPage'])->name('account#changePasswordPage');
     Route::post('account/changePassword',[AccountController::class,'changePassword'])->name('account#changePassword');
+
+    Route::group( ['prefix'=>'category'],function(){
+        Route::get('lists',[CategoryController::class,'lists'])->name('category#lists');
+        Route::get('edit/page/{id}',[CategoryController::class,'editPage'])->name('category#editPage');
+        Route::get('delete/{id}',[CategoryController::class,'delete'])->name('category#delete');
+        Route::post('create',[CategoryController::class,'create'])->name('category#create');
+        Route::post('update',[CategoryController::class,'update'])->name('category#update');
+    });
+
 
 
 

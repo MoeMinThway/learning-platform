@@ -1,133 +1,111 @@
+
 @extends('admin.layouts.app')
 
 
 @section('content')
-<div class="col-4 ">
-        <div class="card">
-            <div class="card-body">
-
-                @if (Session::has('successCreate'))
-                <div class="alert alert-success bg-success alert-dismissible fade show" role="alert">
+<div class="col-12">
 
 
-                    <strong>
-                        {{-- Account Update Success --}}
-                        {{Session('successCreate')}}
-                    </strong>
-                    <button type="button" class="close text-white" data-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                @endif
-                <form action="{{route('admin#category#update')}}" method="POST">
-                    @csrf
-                    <input type="hidden" name="categoryId" value="{{$category->category_id}}">
-                    <div class="form-group">
-                      <label for="exampleInputEmail1">Category Name Edit</label>
-                      <input type="text"  value="{{old('categoryTitle',$category->title)   }}"  name="categoryTitle" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter category name">
-                    @error('categoryTitle')
-                        <span class="text-danger">{{$message}}</span>
-                    @enderror
-                    </div>
-                    <div class="form-group">
-                      <label for="exampleInputPassword1">Description Edit</label>
-                      <textarea name="categoryDescription"   id="" cols="30" rows="5" class="form-control" placeholder="Enter description">{{old('categoryDescription',$category->description)   }}</textarea>
-                      @error('categoryDescription')
-                      <span class="text-danger">{{$message}}</span>
-                  @enderror
-                    </div>
+<div class="card">
+    <div class="card-title">
+        <ul class="d-flex m-1 p-1 list-unstyled justify-content-between" >
+            {{-- <li class="m-3">All</li> --}}
 
+         <div class="d-flex">
+            <span href="#">
+                <li class="m-3">
+                   <h1> Category </h1>
+                </li>
+               </span>
                 <a href="#">
-                    <button class=" btn btn-primary" disabled>Create</button>
+                    <li class="m-3"></li>
                 </a>
-                    <button type="submit" class="btn btn-dark">Update</button>
+         </div>
+
+@if (Session::has("message"))
+<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" style="width: 600px">
+    {{Session::get('message')}}
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+@endif
+       <a href="#" class="" style="text-decoration: none">
+
+                  <div class="bg-success rounded p-1">
+
+                        <li class="m-3">Create New Account</li>
+
+                  </div>
+                </a>
+
+
+
+        </ul>
+
+    </div>
+    <div class="card-body">
+        <div class="row ">
+            <div class="col-6  p-4 ">
+                <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Category</th>
+                        <th scope="col"></th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($categories as $c )
+                            <tr>
+                                <td> {{$c->category_id}} </td>
+                                <td> {{$c->name}} </td>
+                                <td>
+
+                                    <a href="{{route("category#editPage",$c->category_id)}}">
+                                        <i class="fa-solid fa-pen-to-square ml-3 fs-5"></i>
+                                    </a>
+                                    <a href="{{route('category#delete',$c->category_id)}}">
+                                        <i class="fa-solid fa-trash ml-3 fs-5"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+
+
+                    </tbody>
+                  </table>
+            </div>
+            <div class="col-6  p-4 bg-dark " style="border-radius: 20px">
+                <h4>Edit Category  </h4>
+
+                <form action="{{route('category#update')}}" method="POST">
+                    @csrf
+                    <input type="hidden" value="{{$category->category_id}}" name="categoryId">
+                      <div class="form-group">
+                        <label ">Name</label>
+                        <input type="text" name="categoryName" value="{{old('categoryName',$category->name)}}"  class="form-control"  aria-describedby="emailHelp" placeholder="Enter the category">
+                                  @error('categoryName')
+                                  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                   {{$message}}
+                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                  @enderror
+                      </div>
+
+
+                      <button type="submit" class="btn btn-primary">Update</button>
+
                 </form>
             </div>
         </div>
+    </div>
 </div>
 
-<div class="col-8">
-    <div class="card">
-
-        @if (Session::has('successDelete'))
-        <div class="alert alert-success bg-success alert-dismissible fade show" role="alert">
-
-
-            <strong>
-                {{-- Account Update Success --}}
-                {{Session('successDelete')}}
-            </strong>
-            <button type="button" class="close text-white" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        @endif
-      <div class="card-header">
-
-        <h3 class="card-title">Category List    <strong>({{count($categories)}})</strong> </h3>
-
-        <div class="card-tools">
-
-
-            <form action="{{route('admin#category#search')}}" method="get">
-                @csrf
-
-                <div class="input-group input-group-sm" style="width: 150px;">
-
-
-                    <input type="text" value="{{$searchKey}}" name="searchKey" class="form-control float-right" placeholder="Search">
-                <div class="input-group-append">
-                      <button type="submit" class="btn btn-default">
-                        <i class="fas fa-search"></i>
-                      </button>
-                    </div>
-                  </div>
-            </form>
-        </div>
-      </div>
-      <!-- /.card-header -->
-      <div class="card-body table-responsive p-0">
-        <table class="table table-hover text-nowrap text-center">
-          <thead>
-            <tr>
-              <th> ID</th>
-              <th>Title </th>
-              <th>Description </th>
-              <th>Created at</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach ($categories as  $c)
-            <tr>
-                <td>{{$c->category_id}}</td>
-                <td>{{$c->title}}</td>
-                <td>{{$c->description}}</td>
-                <td>{{$c->updated_at->format('d/m/Y')}}</td>
-                <td>
-
-                    <a href="{{route('admin#category#editPage',$c->category_id)}}">
-                        <button class="btn btn-sm bg-dark text-white"><i class="fas fa-edit"></i></button>
-
-                    </a>
-                    <a href="{{route('admin#category#delete',$c->category_id)}}">
-                        <button class="btn btn-sm bg-danger text-white"><i class="fas fa-trash-alt"></i></button>
-
-                    </a>
-                  </td>
-            </tr>
-            @endforeach
-
-
-          </tbody>
-        </table>
-      </div>
-      <!-- /.card-body -->
-    </div>
-    <!-- /.card -->
   </div>
-
-
-
 @endsection
 {{--  --}}

@@ -57,7 +57,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{route('dashboard')}}" class="nav-link">
+            <a href="{{route('category#lists')}}" class="nav-link">
                 <i class="mr-2 fa-solid fa-list"></i>
               <p>
               Category
