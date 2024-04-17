@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CategoryController;
 
@@ -29,6 +30,13 @@ Route::middleware([
         Route::get('delete/{id}',[CategoryController::class,'delete'])->name('category#delete');
         Route::post('create',[CategoryController::class,'create'])->name('category#create');
         Route::post('update',[CategoryController::class,'update'])->name('category#update');
+    });
+
+    Route::group( ['prefix'=>'course'],function(){
+        Route::get('lists/{category_id?}',[CourseController::class,'lists'])->name('course#lists');
+        Route::get('create/page',[CourseController::class,'createPage'])->name('course#createPage');
+        Route::post('create',[CourseController::class,'create'])->name('course#create');
+
     });
 
 
