@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Course;
+use App\Models\Lesson;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -13,14 +14,25 @@ class CourseController extends Controller
     //
 
     public function lists($category_id = null){
-        $categories =Category::get();
-        if($category_id != null){
-            $courses = Course::orWhere("category_id",$category_id)-> get();
 
-        }else{
-            $courses = Course:: get();
+        $categories =Category::get();
+
+        if($category_id != null){
+            $courses = Course::where("category_id",$category_id)-> get();
+
+
+
+
+
+
+        }else if($category_id == null){
+            $courses = Course::get();
+
+
+
 
         }
+
 
         return view('admin.course.list',compact('categories','courses'));
     }
@@ -52,10 +64,11 @@ class CourseController extends Controller
     }
 
     public function editPage($id){
+        $lessons = Lesson::where('course_id',$id)->get();
         $course  =Course :: where('course_id',$id)->first();
         $categories =Category::get();
 
-        return view('admin.course.edit',compact('course','categories'));
+        return view('admin.course.edit',compact('course','categories','lessons'));
     }
     public function update(Request $request){
         // dd($request->toArray());

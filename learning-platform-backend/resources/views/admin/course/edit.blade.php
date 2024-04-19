@@ -16,7 +16,7 @@
     <br>
     <form class="p-2" action="{{route('course#update')}}" method="POST" enctype="multipart/form-data">
         @csrf
-        <input type="hidden" value="{{$course->course_id}}" name="courseId" id="">
+        <input type="hidden" value="{{$course->course_id}}" name="courseId" id="courseId">
        <div class="row">
 
            <div class="col-5 ">
@@ -31,8 +31,30 @@
                <label ">Image</label>
 
                <input type="file" class="form-control mb-2" name="courseImage" id="">
+               <div class="d-flex my-4">
+
+                <input placeholder="Lessons" type="text" id="lesson" class="form-control lesson">
+                <button id="addBtn"  class="btn btn-dark text-white">Add</button>
+               </div>
 
 
+
+
+                <table class="table table-hover">
+
+                    @foreach ($lessons as $l)
+                        <tr class="">
+                            <input type="hidden"  id="deleteLessonId" value="{{$l->lesson_id}}">
+                            <td>{{$l->name}}</td>
+                            <td>
+                                <button class="deleteLessonBtn btn btn-success bg-danger" id="deleteLessonBtn">
+                                   delete
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
+
+                </table>
 
            </div>
            <div class="col-5 offset-1  ">
@@ -217,5 +239,77 @@
        </div>
    </div>
 </form>
+
+
+
 @endsection
+
+@section('scriptSection')
+
+    <script>
+
+        $(document).ready(function(){
+
+
+            $('#addBtn').click(function(){
+                $lessonName = $('.lesson').val();
+                $courseId = $('#courseId').val();
+                    console.log( $lessonName + "    " + $courseId );
+
+
+                $data ={
+                    "courseId" : $courseId,
+                    "lessonName" : $lessonName,
+                };
+                console.log("stat");
+
+                $.ajax ({
+
+                type: 'get',
+                url :  '/course/ajax/lesson/create',
+                data :  $data,
+                dataType: 'json',
+                success : function(respnse){
+                    console.log(respnse);
+                    // if(respnse.status== 'success'){
+                    //     window.location.href= "/user/homePage";
+                    // }
+                }
+
+
+            })
+        });
+            $('#deleteLessonBtn').click(function(){
+                $id = $('#deleteLessonId').val();
+                alert('ok')
+                $data ={
+                    "id" : $id,
+                };
+
+
+                $.ajax ({
+
+                type: 'get',
+                url :  '/course/ajax/lesson/delete',
+                data :  $data,
+                dataType: 'json',
+                success : function(respnse){
+                    console.log(respnse);
+
+                }
+
+
+            })
+        });
+
+
+
+
+
+    })
+    </script>
+
+
+@endsection
+
 {{--  --}}

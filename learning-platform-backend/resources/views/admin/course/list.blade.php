@@ -62,6 +62,7 @@
 
                             <th >Point</th>
                             <th >Category</th>
+                         
                             <th></th>
                 </thead>
                 <tbody>
@@ -89,6 +90,7 @@
                             @endif
                         @endforeach
                     </td>
+
                     <td>
 
 
@@ -122,3 +124,44 @@
   </div>
 @endsection
 {{--  --}}
+@section('scriptSection')
+
+    <script>
+
+        $(document).ready(function(){
+
+
+
+            $('#deleteLessonBtn').click(function(){
+                $id = $('#deleteLessonId').val();
+
+                $data ={
+                    "id" : $id,
+                };
+
+
+                $.ajax ({
+
+                type: 'get',
+                url :  '/course/ajax/lesson/delete',
+                data :  $data,
+                dataType: 'json',
+                success : function(respnse){
+                    console.log(respnse);
+               location.reload();
+
+                }
+
+
+            })
+        });
+
+
+
+
+
+    })
+    </script>
+
+
+@endsection
