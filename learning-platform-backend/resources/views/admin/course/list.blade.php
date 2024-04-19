@@ -55,7 +55,9 @@
 
                             <th >Id</th>
                             <th >Image</th>
+
                             <th >Name</th>
+                            <th>Description</th>
                             <th >Price</th>
 
                             <th >Point</th>
@@ -70,11 +72,12 @@
                         @if ($c->image == NULL)
                         <img src="{{asset('logo/img-removebg-preview.png')}}" width="100px" alt="">
                         @else
-                        <img src="{{asset('accountImage/'.$c->image)}}" width="100px" alt="">
+                        <img src="{{asset('courseImage/'.$c->image)}}" width="100px" alt="">
                         @endif
                     </td>
 
                     <td > {{$c->title}} </td>
+                    <td > {{$c->description}} </td>
                     <td >{{$c->price}} </td>
 
                     <td > {{$c->point}} </td>
@@ -90,7 +93,7 @@
 
 
 
-                            <a href="#">
+                            <a href="{{route('course#editPage',$c->course_id)}}">
                                 <i class="fa-solid fa-pen-to-square ml-3 fs-5"></i>
                             </a>
                             <a href="#">

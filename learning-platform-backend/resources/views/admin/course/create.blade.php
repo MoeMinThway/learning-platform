@@ -60,7 +60,27 @@
                     <label >Point</label>
                     <input type="number"  name="coursePoint" class="form-control"  aria-describedby="emailHelp" placeholder="Enter point">
                   </div>
-
+                  @error('coursePoint')
+                  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                   {{$message}}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  @enderror
+                <div class="form-group">
+                    <label >Description</label>
+                    {{-- <input type="text"  name="courseDescription" class="form-control"  aria-describedby="emailHelp" placeholder="Enter point"> --}}
+                    <textarea name="courseDescription" class="form-control" id="" cols="4" rows="3" placeholder="Enter Description"></textarea>
+                </div>
+                  @error('courseDescription')
+                  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                   {{$message}}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  @enderror
 
 
 
@@ -74,7 +94,14 @@
                     <option value="8 to 10">8 to 10</option>
                     <option value="free">Free to study</option>
                 </select>
-
+                @error('courseTime')
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                 {{$message}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                @enderror
                 </div>
 
                 <div class="form-group">
@@ -86,7 +113,14 @@
                     <option value="Weekend">Weekend</option>
                     <option value="free">Free to study</option>
                 </select>
-
+                @error('courseDay')
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                 {{$message}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                @enderror
                 </div>
 
 
@@ -102,6 +136,14 @@
                             <option value="{{$c->category_id}}">{{$c->name}} </option>
                         @endforeach
                     </select>
+                    @error('courseCategoryId')
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                     {{$message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    @enderror
                   </div>
 
 

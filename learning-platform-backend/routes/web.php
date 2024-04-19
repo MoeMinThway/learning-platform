@@ -36,6 +36,8 @@ Route::middleware([
         Route::get('lists/{category_id?}',[CourseController::class,'lists'])->name('course#lists');
         Route::get('create/page',[CourseController::class,'createPage'])->name('course#createPage');
         Route::post('create',[CourseController::class,'create'])->name('course#create');
+        Route::get('editPage/{id}',[CourseController::class,'editPage'])->name('course#editPage');
+        Route::post('update',[CourseController::class,'update'])->name('course#update');
 
     });
 

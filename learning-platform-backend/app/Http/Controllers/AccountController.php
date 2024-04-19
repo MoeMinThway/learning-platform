@@ -48,7 +48,7 @@ class AccountController extends Controller
         }else{
             $data = $this->getCreateData($request,NULL);
         }
-        User::create($data);
+        User::create($data);    
 
         return redirect()->route('dashboard')->with([
             "message"=>"Account create successfullly"
