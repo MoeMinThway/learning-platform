@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\KpayController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CategoryController;
@@ -39,11 +40,22 @@ Route::middleware([
         Route::post('create',[CourseController::class,'create'])->name('course#create');
         Route::get('editPage/{id}',[CourseController::class,'editPage'])->name('course#editPage');
         Route::post('update',[CourseController::class,'update'])->name('course#update');
+        Route::get('delete/{id}',[CourseController::class,'delete'])->name('course#delete');
 
         Route::get('ajax/lesson/create',[AjaxController::class,'lessonCreate'])->name('course#lessonCreate');
         Route::get('ajax/lesson/delete',[AjaxController::class,'lessonDelete'])->name('course#lessonCreate');
 
     });
+
+    Route::group( ['prefix'=>'kpay'],function(){
+
+        Route::get('create/page',[KpayController::class,'createPage'])->name('kpay#createPage');
+        Route::get('lists',[KpayController::class,'lists'])->name('kpay#lists');
+        Route::post('create',[KpayController::class,'create'])->name('course#create');
+
+    });
+
+
 
 
 

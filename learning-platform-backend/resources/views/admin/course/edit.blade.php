@@ -34,7 +34,7 @@
                <div class="d-flex my-4">
 
                 <input placeholder="Lessons" type="text" id="lesson" class="form-control lesson">
-                <button id="addBtn"  class="btn btn-dark text-white">Add</button>
+                <button   id="addBtn"  class="btn btn-dark text-white">Add</button>
                </div>
 
 
@@ -43,16 +43,19 @@
                 <table class="table table-hover">
 
                     @foreach ($lessons as $l)
-                        <tr class="">
-                            <input type="hidden"  id="deleteLessonId" value="{{$l->lesson_id}}">
-                            <td>{{$l->name}}</td>
-                            <td>
-                                <button class="deleteLessonBtn btn btn-success bg-danger" id="deleteLessonBtn">
-                                   delete
-                                </button>
-                            </td>
-                        </tr>
+
+                      <tr class="">
+                        <input type="hidden"  name="deleteLessonId" id="deleteLessonId" value="{{$l->lesson_id}}">
+                        <td>{{$l->name}}</td>
+                        <td>
+                            <button  class="deleteLessonBtn btn btn-success bg-danger" id="deleteLessonBtn">
+                                <i class="fa-solid fa-trash  fs-5"></i>
+                            </button>
+                        </td>
+                    </tr>
+
                     @endforeach
+
 
                 </table>
 
@@ -244,6 +247,7 @@
 
 @endsection
 
+
 @section('scriptSection')
 
     <script>
@@ -274,6 +278,7 @@
                     // if(respnse.status== 'success'){
                     //     window.location.href= "/user/homePage";
                     // }
+                    location.reload();
                 }
 
 
@@ -281,7 +286,7 @@
         });
             $('#deleteLessonBtn').click(function(){
                 $id = $('#deleteLessonId').val();
-                alert('ok')
+
                 $data ={
                     "id" : $id,
                 };
@@ -295,7 +300,7 @@
                 dataType: 'json',
                 success : function(respnse){
                     console.log(respnse);
-
+                    location.reload();
                 }
 
 

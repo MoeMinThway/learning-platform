@@ -108,7 +108,7 @@
 
                 <div class="form-group">
                     <label ">Money</label>
-                    <input type="number" name="accountMoney" value="{{old('accountMoney',$user->money)}}" class="form-control"  aria-describedby="emailHelp" placeholder="Enter money">
+                    <input type="number" name="accountMoney" value="{{old('accountMoney',$user->money)}}" @if (count($kpays) != 0) disabled   @endif class="form-control"  aria-describedby="emailHelp" placeholder="Enter money">
                   </div>
                   <div class="form-group">
                     <label ">Point</label>

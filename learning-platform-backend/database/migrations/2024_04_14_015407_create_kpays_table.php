@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id('kpay_id');
             $table->string('user_id');
             $table->string('image');
-            $table->longText('money');
+            $table->longText('old_money')->nullable(true);
+            $table->longText('new_money');
+            $table->longText('current_money')->nullable(true);
+
             $table->string('description')->nullable(true);
             $table->timestamps();
         });

@@ -19,22 +19,15 @@ class CourseController extends Controller
 
         if($category_id != null){
             $courses = Course::where("category_id",$category_id)-> get();
-
-
-
-
-
-
         }else if($category_id == null){
             $courses = Course::get();
-
-
-
-
         }
+        $lessons = Lesson::
+                get();
+        // dd($lessons->toArray());
 
 
-        return view('admin.course.list',compact('categories','courses'));
+        return view('admin.course.list',compact('categories','courses','lessons'));
     }
     public function createPage(){
         $categories = Category::get();
@@ -73,8 +66,11 @@ class CourseController extends Controller
     public function update(Request $request){
         // dd($request->toArray());
         $oldData = Course::where('course_id',$request->courseId)->first();
+        $oldLessons  = Lesson::where('course_id',$request->courseId)->get();
+        // dd($oldLessons->toArray());
+
         // dd($oldData->toArray());
-       $check =  $this->oldDataIsSameAsNew($oldData,$request);
+       $check =  $this->oldDataIsSameAsNew($oldData,$request,$oldLessons);
         // dd($check);
         if(!$check || !empty($request->courseImage)  ){
             if(!empty($oldData->image) && File::exists(public_path().'/courseImage/'.$oldData->image)){
@@ -107,6 +103,13 @@ class CourseController extends Controller
 
 
     }
+    public function delete($id){
+        Course::where('course_id',$id)->delete();
+        Lesson::where('course_id',$id)->delete();
+        return redirect()->route('course#lists')->with([
+            "message"=>"Course delete success"
+        ]);
+    }
 
     private function validationCheckCourse($request){
         $request->validate([
@@ -133,7 +136,7 @@ class CourseController extends Controller
             'updated_at' =>Carbon::now(),
         ];
     }
-    private function oldDataIsSameAsNew($oldData,$request){
+    private function oldDataIsSameAsNew($oldData,$request,$oldLessons){
         $checkTitle =    $oldData->title == $request->courseTitle ? true : false ;
      $checkPrice=    $oldData->price == $request->coursePrice ? true : false ;
     $checkPoint =      $oldData->point == $request->coursePoint ? true : false ;
@@ -144,7 +147,11 @@ class CourseController extends Controller
       $checkImge =   $oldData->image == $request->courseImage ? true : false ;
 
       if($checkTitle  && $checkPrice && $checkPoint && $checkDescription && $checkTime && $checkDay && $checkCategory){
-        return true;
+
+            return false;
+
+
+
       }else{
         return false;
       }
@@ -153,13 +160,5 @@ class CourseController extends Controller
 }
 
 
-//courseId
-// "courseTitle" => "az"
-//   "coursePrice" => "15000"
-//   "coursePoint" => "30"
-//   "courseDescription" => "123123"
-//   "courseTime" => "8 to 10"
-//   "courseDay" => "free"
-//   "courseCategoryId" => "2"
-//   "courseImage" =>
+
 

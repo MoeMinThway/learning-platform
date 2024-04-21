@@ -62,7 +62,8 @@
 
                             <th >Point</th>
                             <th >Category</th>
-                         
+                            <th>Lesson</th>
+
                             <th></th>
                 </thead>
                 <tbody>
@@ -90,7 +91,26 @@
                             @endif
                         @endforeach
                     </td>
+                    <td>
+                        <table class="table table-hover">
 
+                            @foreach ($lessons as $l)
+                                @if ($l->course_id == $c->course_id)
+                                <tr class="">
+                                    <input type="hidden"  id="deleteLessonId" value="{{$l->lesson_id}}">
+                                    <td>{{$l->name}}</td>
+                                    <td>
+                                        <button  class="deleteLessonBtn btn btn-success bg-danger" id="deleteLessonBtn">
+                                           delete
+                                        </button>
+                                    </td>
+                                </tr>
+                                @endif
+                            @endforeach
+
+
+                        </table>
+                    </td>
                     <td>
 
 
@@ -98,7 +118,7 @@
                             <a href="{{route('course#editPage',$c->course_id)}}">
                                 <i class="fa-solid fa-pen-to-square ml-3 fs-5"></i>
                             </a>
-                            <a href="#">
+                            <a href="{{route('course#delete',$c->course_id)}}">
                                 <i class="fa-solid fa-trash ml-3 fs-5"></i>
                             </a>
 
@@ -124,6 +144,8 @@
   </div>
 @endsection
 {{--  --}}
+
+
 @section('scriptSection')
 
     <script>
@@ -132,7 +154,9 @@
 
 
 
+
             $('#deleteLessonBtn').click(function(){
+
                 $id = $('#deleteLessonId').val();
 
                 $data ={
@@ -148,12 +172,12 @@
                 dataType: 'json',
                 success : function(respnse){
                     console.log(respnse);
-               location.reload();
-
+                    location.reload();
                 }
 
 
             })
+            location.reload();
         });
 
 

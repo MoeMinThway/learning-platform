@@ -12,8 +12,10 @@ class Kpay extends Model
         'kpay_id',
         'user_id',
         'image',
-        'money',
+        'old_money',
+        'new_money',
+        'current_money',
         'description',
-       
+
     ];
 }

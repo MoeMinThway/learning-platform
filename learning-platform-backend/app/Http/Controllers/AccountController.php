@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Kpay;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
@@ -48,7 +49,7 @@ class AccountController extends Controller
         }else{
             $data = $this->getCreateData($request,NULL);
         }
-        User::create($data);    
+        User::create($data);
 
         return redirect()->route('dashboard')->with([
             "message"=>"Account create successfullly"
@@ -58,10 +59,15 @@ class AccountController extends Controller
      public function editPage($id){
         // dd($id);
         $user =User::where('id',$id)->first();
-        return view('admin.profile.edit',compact('user'));
+         $kpays = Kpay::where('user_id',$id)->get();
+        // dd(count($kpays));
+        // dd($kpays->toArray());
+        return view('admin.profile.edit',compact('user','kpays'));
      }
 
      public function edit(Request $request){
+
+
         $oldAccocunt = User::where('id',$request->accountId)->first();
         $oldImgName = $oldAccocunt->image;
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
+use App\Models\Lesson;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -29,6 +31,15 @@ class CategoryController extends Controller
     }
     public function delete($id){
         Category::where('category_id',$id)->delete();
+
+       $courses =  Course::where('category_id',$id)->get(); //delete id id id
+        foreach ($courses as $c){
+                    Lesson::where('course_id',$c->course_id)->delete();
+        }
+
+        Course::where('category_id',$id)->delete();
+
+
         return redirect()->route('category#lists')->with([
             "message"=>"Category delete successfully"
         ]);

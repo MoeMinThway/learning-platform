@@ -82,7 +82,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{route('dashboard')}}" class="nav-link">
+            <a href="{{route('kpay#lists')}}" class="nav-link">
                 <i class="mr-2 fa-solid fa-money-bill"></i>              <p>
                 Kpay
               </p>
