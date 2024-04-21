@@ -51,7 +51,10 @@ Route::middleware([
 
         Route::get('create/page',[KpayController::class,'createPage'])->name('kpay#createPage');
         Route::get('lists',[KpayController::class,'lists'])->name('kpay#lists');
-        Route::post('create',[KpayController::class,'create'])->name('course#create');
+        Route::post('create',[KpayController::class,'create'])->name('kpay#create');
+        Route::get('delete/{id}',[KpayController::class,'delete'])->name('kpay#delete');
+        Route::get('editPage/{id}',[KpayController::class,'editPage'])->name('kpay#editPage');
+        Route::post('edit',[KpayController::class,'edit'])->name('kpay#edit');
 
     });
 

@@ -14,13 +14,17 @@
     </div>
   </div>
     <br>
-    <form class="p-2" action="{{route('kpay#create')}}" method="POST" enctype="multipart/form-data">
+    <form class="p-2" action="{{route('kpay#edit')}}" method="POST" enctype="multipart/form-data">
         @csrf
        <div class="row">
 
            <div class="col-5 ">
-               <img src="{{asset('logo/kpay.png')}}" width="430px" style="margin-left: 70px" alt=""> <br>
+            @if ($kpay->image == null)
+            <img src="{{asset('logo/kpay.png')}}" width="430px" style="margin-left: 70px" alt=""> <br>
+            @else
+            <img src="{{asset('kpayImage/'.$kpay->image)}}" width="430px" style="margin-left: 70px" alt=""> <br>
 
+            @endif
 
 
            </div>
@@ -29,13 +33,14 @@
 
             <div class="form-group">
                 <label ">User</label>
-                          <select name="kpayUserId" class="form-control">
+                <input type="hidden" name="kpayUserId" value="{{$user->id}}">
+                <input type="hidden" name="kpayId" value="{{$kpay->kpay_id}}">
+                          <select  class="form-control">
 
-                              <option value="">Choose User</option>
-                              @foreach ($users as $u)
-                                  <option value="{{$u->id}}">{{$u->name}}</option>
-                              @endforeach
+                            <option value="{{$user->id}}" disabled  selected> {{$user->name}} </option>
+
                           </select>
+
 
                           @error('kpayUserId')
                           <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -51,7 +56,7 @@
 
                 <div class="form-group">
                   <label ">Money</label>
-                  <input type="number" name="kpayNewMoney"   class="form-control"  aria-describedby="emailHelp" placeholder="Enter amount">
+                  <input type="number" name="kpayNewMoney" value="{{old('kpayNewMoney',$kpay->new_money)}}"   class="form-control"  aria-describedby="emailHelp" placeholder="Enter amount">
                             @error('kpayNewMoney')
                             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                              {{$message}}
@@ -70,7 +75,7 @@
                 <div class="form-group">
                     <label >Description</label>
                     {{-- <input type="text"  name="courseDescription" class="form-control"  aria-describedby="emailHelp" placeholder="Enter point"> --}}
-                    <textarea name="kpayDescription" class="form-control" id="" cols="4" rows="3" placeholder="Enter Description"></textarea>
+                    <textarea name="kpayDescription"  class="form-control" id="" cols="4" rows="3" placeholder="Enter Description">{{old('kpayDescription',$kpay->description)}}</textarea>
                 </div>
                   @error('kpayDescription')
                   <div class="alert alert-warning alert-dismissible fade show" role="alert">

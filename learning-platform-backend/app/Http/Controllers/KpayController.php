@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Kpay;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class KpayController extends Controller
 {
@@ -15,14 +16,13 @@ class KpayController extends Controller
         return view('admin.kpay.create',compact('users'));
     }
     public function create(Request $request){
-        // dd($request->toArray());
+
         $this->validationCheck($request);
          $user = User::where('id',$request->kpayUserId)->first();
          $oldUserMoney = $user->money;
-        //  dd($oldUserMoney);
 
          $CurrentUserMoney =$oldUserMoney + $request->kpayNewMoney ;
-        //  dd($CurrentUserMoney);
+
         $file = $request->file('kpayImage');
         $filename =  uniqid()."_".$file->getClientOriginalName();
         $file->move(public_path()."/kpayImage",$filename);
@@ -46,12 +46,71 @@ class KpayController extends Controller
         User::where ('id',$request->kpayUserId)->update([
             'money'=>$CurrentUserMoney
         ]);
-        dd('success');
+
         return redirect()->route('kpay#lists');
 
 
     }
 
+    public function editPage($id){
+        $kpay = Kpay::where('kpay_id',$id)->first(); //6 1
+        // dd($kpay->toArray());
+        $user = User::where('id',$kpay->user_id)->first();
+
+        // dd($user->id); // 1
+        return view('admin.kpay.edit',compact('user','kpay'));
+    }
+    public function edit(Request $request){
+        // dd($request->toArray());
+        $kpay =  Kpay::where('kpay_id',$request->kpayId)->first();
+        $this->validationCheck($request);
+
+         $oldUserMoney = $kpay->old_money; //10
+
+         $CurrentUserMoney =$oldUserMoney + $request->kpayNewMoney ; //10+80
+
+        File::delete(public_path().'/kpayImage/'.$kpay->image);
+        $file = $request->file('kpayImage');
+        $filename =  uniqid()."_".$file->getClientOriginalName();
+        $file->move(public_path()."/kpayImage",$filename);
+
+
+
+        $data = [
+
+            "new_money" => $request->kpayNewMoney,
+            "description" => $request->kpayDescription,
+            "current_money" => $CurrentUserMoney ,
+            'image'=>$filename,
+            'updated_at'=>Carbon::now(),
+
+        ];
+        Kpay::where('kpay_id',$request->kpayId)->update($data);
+
+
+        User::where ('id',$request->kpayUserId)->update([
+            'money'=>$CurrentUserMoney
+        ]);
+
+        return redirect()->route('kpay#lists');
+    }
+    public function delete($id){
+        $kpay =  Kpay::where('kpay_id',$id)->first();
+        // User::where('id',$kpay->user_id)->update([
+        //     'money'=>$kpay->current_money - $kpay->new_money,
+        // ]);
+        $user = User::where('id',$kpay->user_id)->first();
+        $updateMoney = $user->money - $kpay->new_money;
+        User::where('id',$kpay->user_id)->update([
+                'money'=>$updateMoney,
+            ]);
+
+        Kpay::where('kpay_id',$id)->delete();
+
+        $kpays= Kpay::get();
+        $users= User::get();
+        return view('admin.kpay.lists',compact('kpays','users'));
+    }
     public function lists(){
         $kpays = Kpay::get();
         $users= User::get();
@@ -70,7 +129,7 @@ class KpayController extends Controller
 }
 
 // "kpayUserId" => "1"
-//   "kpayNewMoney" => "100"
-//   "courseDescription" => "Pocket"
-//   "kpayImage" =>
+// "kpayNewMoney" => "1000"
+// "kpayDescription" => "Abc"
+// "kpayImage" =>
 

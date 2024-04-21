@@ -87,6 +87,15 @@
                             <th>{{$k->current_money}} </th>
 
                             <th>{{$k->updated_at}} </th>
+                            <th>
+                                <a href="{{route('kpay#editPage',$k->kpay_id)}}" style="list-style: none;">
+                                    <i class="fa-solid fa-pen-to-square ml-3 fs-5"></i>
+                                </a>
+                                <a href="{{route('kpay#delete',$k->kpay_id)}}">
+                                    <i class="fa-solid fa-trash ml-3 fs-5"></i>
+                                </a>
+
+                            </th>
                         </tr>
                     @endforeach
 
