@@ -10,15 +10,21 @@
     <div class="card-title">
         <ul class="d-flex m-1 p-1 list-unstyled justify-content-between" >
             {{-- <li class="m-3">All</li> --}}
+         <div>
+            {{-- <select name="OpDesc" class="form-control" id="OpDesc">
+                <option value="desc">Desc</option>
+                <option value="asc">Asec</option>
+            </select> --}}
+         </div>
+         <div  class="d-flex mt-3">
 
-         <div class="d-flex">
-            <ul class="d-flex list-unstyled" >
-               <a href="#">
-                <li class="p-2 m-2">All</li>
-               </a>
-
-
-            </ul>
+            <form action="{{route('kpay#search')}}" method="POST" class="d-flex">
+                @csrf
+               <div>
+                <input type="text" class="form-control"  name="searchKey" id="">
+               </div>
+<div>                <button class="btn btn-secondary " type="submit">Search</button>
+</div>           </form>
          </div>
 
 @if (Session::has("message"))
@@ -62,43 +68,45 @@
                 </thead>
 
                 <tbody>
+                    <div id="addTotheData">
 
                     @foreach ($kpays as $k)
-                        <tr>
+                    <tr>
 
-                            <th>{{$k->kpay_id}} </th>
+                        <th>{{$k->kpay_id}} </th>
 
-                              @foreach ($users as $u)
-                                @if ($u->id == $k->user_id)
-                                    <th>
-                                       <a href="{{route('account#editPage',$k->user_id)}}" class="text-decoration-none" >
-                                     <span class="h6">   {{$u->name}}</span>
-                                       </a>
+                          @foreach ($users as $u)
+                            @if ($u->id == $k->user_id)
+                                <th>
+                                   <a href="{{route('account#editPage',$k->user_id)}}" class="text-decoration-none" >
+                                 <span class="h6">   {{$u->name}}</span>
+                                   </a>
 
-                                    </th>
-                                @endif
-                            @endforeach
-
-
+                                </th>
+                            @endif
+                        @endforeach
 
 
-                            <th>{{$k->old_money}} </th>
-                            <th>{{$k->new_money}} </th>
-                            <th>{{$k->current_money}} </th>
 
-                            <th>{{$k->updated_at}} </th>
-                            <th>
-                                <a href="{{route('kpay#editPage',$k->kpay_id)}}" style="list-style: none;">
-                                    <i class="fa-solid fa-pen-to-square ml-3 fs-5"></i>
-                                </a>
-                                <a href="{{route('kpay#delete',$k->kpay_id)}}">
-                                    <i class="fa-solid fa-trash ml-3 fs-5"></i>
-                                </a>
 
-                            </th>
-                        </tr>
-                    @endforeach
+                        <th>{{$k->old_money}} </th>
+                        <th>{{$k->new_money}} </th>
+                        <th>{{$k->current_money}} </th>
 
+                        <th>{{$k->updated_at}} </th>
+                        <th>
+                            <a href="{{route('kpay#editPage',$k->kpay_id)}}" style="list-style: none;">
+                                <i class="fa-solid fa-pen-to-square ml-3 fs-5"></i>
+                            </a>
+                            <a href="{{route('kpay#delete',$k->kpay_id)}}">
+                                <i class="fa-solid fa-trash ml-3 fs-5"></i>
+                            </a>
+
+                        </th>
+                    </tr>
+                @endforeach
+
+                    </div>
                 </tbody>
               </table>
               <div>
@@ -113,7 +121,7 @@
 {{--  --}}
 
 
-@section('scriptSection')
+{{-- @section('scriptSection')
 
     <script>
 
@@ -122,29 +130,70 @@
 
 
 
-            $('#deleteLessonBtn').click(function(){
+            $('#OpDesc').change(function(){
 
-                $id = $('#deleteLessonId').val();
-
-                $data ={
-                    "id" : $id,
-                };
+                $op = $('#OpDesc').val();
+              $data = {
+                'op' : $op
+              }
 
 
                 $.ajax ({
 
                 type: 'get',
-                url :  '/course/ajax/lesson/delete',
+                url :  '/kpay/ajax/desc/',
                 data :  $data,
                 dataType: 'json',
                 success : function(respnse){
-                    console.log(respnse);
-                    location.reload();
+                    console.log(respnse.kpays.length);
+                    $list = '';
+                        for( $i = 0 ; $i<respnse.kpays.length;$i++){
+                             $list +=`
+                             <tr>
+
+                                <th>${respnse[$i].kpay_id} </th>
+
+                                <a href="{{route('account#editPage',${respnse[$i].kpay_id})}}" class='text-decoration-none' >
+                                        <span class='h6'>   {{$u->name}}</span>
+                                        </a>
+                                @foreach ($users as $u)
+                                    @if ($u->id == $k->user_id)
+                                        <th>
+                                        <a href="{{route('account#editPage',${respnse[$i].kpay_id})}}" class='text-decoration-none' >
+                                        <span class='h6'>   {{$u->name}}</span>
+                                        </a>
+
+                                        </th>
+                                    @endif
+                                @endforeach
+
+
+
+
+                                        <th>${respnse[$i].old_money}</th>
+                                        <th>${respnse[$i].new_money} </th>
+                                        <th>${respnse[$i].current_money} </th>
+
+                                        <th>${respnse[$i].updated_at} </th>
+                                        <th>
+                                            <a href="{{route('kpay#editPage',${respnse[$i].kpay_id})}}" style="list-style: none;">
+                                                <i class="fa-solid fa-pen-to-square ml-3 fs-5"></i>
+                                            </a>
+                                            <a href="{{route('kpay#delete',${respnse[$i].kpay_id})}}">
+                                                <i class="fa-solid fa-trash ml-3 fs-5"></i>
+                                            </a>
+
+                                        </th>
+                                        </tr>
+                                                                `;
+                        }
+                        $('#addTotheData').html= $list;
+
                 }
 
 
             })
-            location.reload();
+            // location.reload();
         });
 
 
@@ -155,4 +204,4 @@
     </script>
 
 
-@endsection
+@endsection --}}

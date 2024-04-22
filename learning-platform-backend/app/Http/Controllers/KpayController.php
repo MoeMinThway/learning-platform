@@ -95,10 +95,13 @@ class KpayController extends Controller
         return redirect()->route('kpay#lists');
     }
     public function delete($id){
+
+        $kpays= Kpay::get();
+        $users= User::get();
+
         $kpay =  Kpay::where('kpay_id',$id)->first();
-        // User::where('id',$kpay->user_id)->update([
-        //     'money'=>$kpay->current_money - $kpay->new_money,
-        // ]);
+
+        // dd($kpay->toArray());
         $user = User::where('id',$kpay->user_id)->first();
         $updateMoney = $user->money - $kpay->new_money;
         User::where('id',$kpay->user_id)->update([
@@ -110,6 +113,36 @@ class KpayController extends Controller
         $kpays= Kpay::get();
         $users= User::get();
         return view('admin.kpay.lists',compact('kpays','users'));
+    }
+    public function search(Request $request){
+         //user
+
+         $userSearchId = User::orWhere('name',$request->searchKey)->first(); //null or id
+
+        if($userSearchId != null){
+
+
+
+            $kpays = Kpay::
+                where('user_id',$userSearchId->id)
+                ->get();
+            ;
+            
+
+        }else{
+            // dd('no');
+            $kpays = Kpay::
+            orWhere('user_id',$request->searchKey)->
+            orWhere('kpay_id',$request->searchKey)->
+            orWhere('description',$request->searchKey)
+
+
+            ->get();
+        }
+
+        $users= User::get();
+        // dd($request->toArray());
+        return view("admin.kpay.lists",compact('users','kpays'));
     }
     public function lists(){
         $kpays = Kpay::get();

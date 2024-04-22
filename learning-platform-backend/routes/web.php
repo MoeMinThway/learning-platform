@@ -55,6 +55,11 @@ Route::middleware([
         Route::get('delete/{id}',[KpayController::class,'delete'])->name('kpay#delete');
         Route::get('editPage/{id}',[KpayController::class,'editPage'])->name('kpay#editPage');
         Route::post('edit',[KpayController::class,'edit'])->name('kpay#edit');
+        Route::post('search',[KpayController::class,'search'])->name('kpay#search');
+
+        Route::get('ajax/desc',[AjaxController::class,'desc'])->name('course#desc');
+
+
 
     });
 

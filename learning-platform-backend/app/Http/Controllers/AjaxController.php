@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kpay;
+use App\Models\User;
 use App\Models\Lesson;
 use Illuminate\Http\Request;
 
@@ -35,5 +37,25 @@ class AjaxController extends Controller
         return response()->json([
             "message"=>'ok'
         ]);
+    }
+    public function desc(Request $request){
+        logger($request->toArray());
+
+            if($request->op == 'desc'){
+              $kpays =   Kpay::orderBy('updated_at','desc')->get();
+            }else if($request->op == 'asc'){
+                $kpays =   Kpay::orderBy('updated_at','asc')->get();
+
+            }
+            $users =User::get();
+
+
+
+
+        return response()->json( [
+
+            "kpays"=> $kpays,
+            'users' =>$users,
+        ] ,200);
     }
 }

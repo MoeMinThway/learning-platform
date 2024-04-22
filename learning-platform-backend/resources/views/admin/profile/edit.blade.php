@@ -11,13 +11,15 @@
     </div>
     <div class="col">
         <h1 > Edit <span class="text-danger">{{$user->name}}</span>  's Account
-            <a class="ml-5" href="{{route("account#delete",$user->id)}}">
-                <span  class="btn btn-danger">
+            @if (Auth::user()->id != $user->id)
+            <a href="{{route("account#delete",$user->id)}}">
+             <span  class="btn btn-danger">
 
-                        <i class="fa-solid fa-trash fs-5"></i>
+                     <i class="fa-solid fa-trash fs-5"></i>
 
-                    </span>
-            </a>
+                 </span>
+         </a>
+            @endif
         </h1>
     </div>
   </div>
